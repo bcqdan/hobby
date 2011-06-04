@@ -8,9 +8,9 @@ import sys
 import traceback
 
 class iter:
-  def __init__(self, s, p):
+  def __init__(self, s):
     self.s = s
-    self.p = p
+    self.p = 0
 
   def current(self):
     return self.s[self.p]
@@ -73,7 +73,7 @@ def constant(it):
   return value
 
 def myeval(s):
-  return expr(iter(s, 0))
+  return expr(iter(s))
 
 def check(s):
   return eval(s) == myeval(s)
