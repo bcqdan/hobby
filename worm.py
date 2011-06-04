@@ -157,6 +157,7 @@ def key(event):
     lock.release()
  
 def roll():
+  # todo: this timer doesn't work when system goes to sleep and wakes up later
   heartbeat = 0.12
   t1 = time.time()
   while True:
