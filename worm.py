@@ -1,3 +1,5 @@
+''' The snake game, very close to Nokia 3210 version '''
+
 import sys
 import time
 import thread
