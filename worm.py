@@ -1,4 +1,4 @@
-''' The snake game, very close to Nokia 3210 version '''
+''' The snake game, very close to Nokia 3210 version, except you don't die when hitting a wall or yourself. Relax mode. You can still die if you get stuck'''
 
 import sys
 import time
