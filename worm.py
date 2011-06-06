@@ -1,7 +1,7 @@
 '''
 The snake game, very close to Nokia 3210 version, except you don't die
-when hitting a wall or yourself. Relax mode. You can still die if you get
-stuck
+when hitting a wall or yourself. If you get stuck, the snake
+becomes shorter until there's an exit. Relax mode.
 '''
 
 import sys
@@ -45,10 +45,6 @@ tkgoody = None
 def abort():
   sys.exit(0)
 
-def death():
-  print 'dead'
-  abort()
-
 def x(p):
   return (p % m) * block_size + padding
 
@@ -82,10 +78,15 @@ def add_head(head):
 def add_goody():
   global goody, tkgoody
   if len(worm) == n*m:
-    death()
-  goody = worm[0]
-  while table[goody] == 'w':
-    goody = r.randint(0, n * m - 1)
+    sys.exit(0)
+  count = r.randint(0, n * m - len(worm) - 1)
+  goody = 0
+  while True:
+    if table[goody] == ' ':
+      if count == 0:
+        break
+      count -= 1
+    goody += 1
   table[goody] = 'g'
   tkgoody = canvas.create_rectangle( \
       rectangle(goody), fill=fgcolor, outline=fgcolor)
@@ -113,14 +114,13 @@ def advance():
   if not free(l, c):
     if not free(hl-1, hc) and not free(hl+1, hc) \
         and not free(hl, hc-1) and not free(hl, hc+1):
-      death()
+      remove_tail()
   else:
     next = l * m + c
     if table[next] == 'g':
       canvas.delete(tkgoody)
       add_head(next)
       add_goody()
-      print len(worm)
     else:
       remove_tail()
       add_head(next)
