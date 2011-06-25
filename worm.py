@@ -137,7 +137,6 @@ def procces_event():
   lock.acquire()
   event = events_queue.pop(0)
   global dir
-  # use constants
   if event.keysym == 'Up':
     if dir == None or dir == 'left' or dir == 'right':
       dir = 'up'
@@ -172,7 +171,7 @@ def roll():
     t1 += heartbeat
     time.sleep(max(0, t1 - time.time()))
 
-for i in xrange(10):
+for i in xrange(3):
   add_head(n*m/2 + m/2 + i)
 add_goody()
 thread.start_new_thread(roll, ())
