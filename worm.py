@@ -10,7 +10,7 @@ import thread
 import random
 import Tkinter as tk
 
-block_size = 13
+block_size = 21
 bgcolor = '#777964'
 fgcolor = 'black'
 padding = 10
@@ -138,16 +138,16 @@ def procces_event():
   event = events_queue.pop(0)
   global dir
   # use constants
-  if event.keycode == 8320768:
+  if event.keysym == 'Up':
     if dir == None or dir == 'left' or dir == 'right':
       dir = 'up'
-  elif event.keycode == 8255233:
+  elif event.keysym == 'Down':
     if dir == None or dir == 'left' or dir == 'right':
       dir = 'down'
-  elif event.keycode == 8124162:
+  elif event.keysym == 'Left':
     if dir == None or dir == 'up' or dir == 'down':
       dir = 'left'
-  elif event.keycode == 8189699:
+  elif event.keysym == 'Right':
     if dir == None or dir == 'up' or dir == 'down':
       dir = 'right'
   lock.release()
