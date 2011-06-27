@@ -138,17 +138,13 @@ def procces_event():
   event = events_queue.pop(0)
   global dir
   if event.keysym == 'Up':
-    if dir == None or dir == 'left' or dir == 'right':
-      dir = 'up'
+    dir = 'up'
   elif event.keysym == 'Down':
-    if dir == None or dir == 'left' or dir == 'right':
-      dir = 'down'
+    dir = 'down'
   elif event.keysym == 'Left':
-    if dir == None or dir == 'up' or dir == 'down':
-      dir = 'left'
+    dir = 'left'
   elif event.keysym == 'Right':
-    if dir == None or dir == 'up' or dir == 'down':
-      dir = 'right'
+    dir = 'right'
   lock.release()
 
 def key(event):
