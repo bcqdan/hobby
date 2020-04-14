@@ -9,6 +9,7 @@ import time
 import thread
 import random
 import Tkinter as tk
+from winsound import *
 
 block_size = 21
 bgcolor = '#777964'
@@ -19,13 +20,17 @@ width = m * block_size + 2 * padding
 height = n * block_size + 2 * padding
 
 root = tk.Tk()
+score_lbl = tk.Label(root, text = "Score: {0}".format(0))
+score_lbl.grid(row = 0, sticky="W")
 canvas = tk.Canvas(root, width = width, height = height)
 canvas.pack()
 canvas.create_rectangle( \
     padding - 1, padding - 1, \
     width - padding + 1, height - padding + 1, \
     fill=bgcolor, outline=fgcolor)
+canvas.grid(column = 0, row = 1)
 r = random.Random()
+play_sound = lambda: PlaySound("goody2.wav", SND_FILENAME)
 
 # table
 table = dict()
@@ -41,6 +46,7 @@ lock = thread.allocate_lock()
 
 goody = 0
 tkgoody = None
+score = 0
 
 def abort():
   sys.exit(0)
@@ -74,7 +80,7 @@ def add_head(head):
     elif head == p - m:
       glue = x1, y2, x2, y2+1
     tkglue[p] = canvas.create_rectangle(glue, outline=fgcolor)
-
+    
 def add_goody():
   global goody, tkgoody
   if len(worm) == n*m:
@@ -98,7 +104,7 @@ def free(l, c):
   return valid(l, c) and (table[l*m + c] != 'w' or worm[len(worm) - 1] == l*m + c)
 
 def advance():
-  global worm
+  global worm, score
   l, c = worm[0] / m, worm[0] % m
   hl, hc = l, c
   if dir == 'right':
@@ -119,6 +125,9 @@ def advance():
     next = l * m + c
     if table[next] == 'g':
       canvas.delete(tkgoody)
+      score += 1
+      score_lbl.configure(text="Score: {0}".format(str(score)))
+      thread.start_new_thread(play_sound, ())
       add_head(next)
       add_goody()
     else:
@@ -163,7 +172,7 @@ def roll():
     if len(events_queue) > 0:
       procces_event()
     advance()
-    root.update()
+    #root.update()
     t1 += heartbeat
     time.sleep(max(0, t1 - time.time()))
 
